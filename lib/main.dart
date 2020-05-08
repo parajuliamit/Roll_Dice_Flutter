@@ -27,21 +27,56 @@ class _DicePageState extends State<DicePage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
-            child: FlatButton(
-                onPressed: () {
-                  rollDice();
-                },
-                child: Image.asset('images/dice$leftDiceNumber.png')),
+          SizedBox(
+            width: double.infinity,
+            height: 20.0,
           ),
-          Expanded(
-            child: FlatButton(
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                    onPressed: () {
+                      rollDice();
+                    },
+                    child: Image.asset('images/dice$leftDiceNumber.png')),
+              ),
+              Expanded(
+                child: FlatButton(
+                    onPressed: () {
+                      rollDice();
+                    },
+                    child: Image.asset('images/dice$rightDiceNumber.png')),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      rightDiceNumber = 0;
+                    });
+                  },
+                  child: Text('1 Dice'),
+                ),
+              ),
+              RaisedButton(
                 onPressed: () {
-                  rollDice();
+                  setState(() {
+                    if (rightDiceNumber == 0) {
+                      rightDiceNumber = 1;
+                    }
+                  });
                 },
-                child: Image.asset('images/dice$rightDiceNumber.png')),
+                child: Text('2 Die'),
+              ),
+            ],
           ),
         ],
       ),
@@ -51,7 +86,9 @@ class _DicePageState extends State<DicePage> {
   void rollDice() {
     setState(() {
       leftDiceNumber = Random().nextInt(6) + 1;
-      rightDiceNumber = Random().nextInt(6) + 1;
+      if (rightDiceNumber != 0) {
+        rightDiceNumber = Random().nextInt(6) + 1;
+      }
     });
   }
 }
